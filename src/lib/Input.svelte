@@ -1,19 +1,16 @@
 <script>
     import Movies from './Movies.svelte';
+    import { getMovies } from './../services/api/get-movies';
 
     let value = '';
-    let response = [];
+    let response = getMovies(value);
 
     const handleInput = event => {
         value = event.target.value;
     }
 
     $: if(value.length >= 3) {
-        // @ts-ignore
-        response = fetch(`https://www.omdbapi.com/?s=${value}&apikey=5e384b78`)
-        .then(res => res.json())
-        .then(data => data.Search || [])
-        .catch(error => console.log(error));
+        response = getMovies(value);
     }
 </script>
 
